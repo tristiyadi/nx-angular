@@ -1,6 +1,56 @@
 {
   "version": 1,
   "projects": {
+    "material": {
+      "projectType": "library",
+      "root": "libs/material",
+      "sourceRoot": "libs/material/src",
+      "prefix": "nx-ui-core",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/material"],
+          "options": {
+            "jestConfig": "libs/material/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/material/src/**/*.ts",
+              "libs/material/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "share-ui": {
+      "projectType": "library",
+      "root": "libs/share-ui",
+      "sourceRoot": "libs/share-ui/src",
+      "prefix": "nx-ui-core",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/share-ui"],
+          "options": {
+            "jestConfig": "libs/share-ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/share-ui/src/**/*.ts",
+              "libs/share-ui/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ui-core": {
       "projectType": "application",
       "root": "apps/ui-core",
@@ -67,7 +117,10 @@
               "browserTarget": "ui-core:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "apps/ui-core/proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
