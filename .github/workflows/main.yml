@@ -1,0 +1,77 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Test, Build and Deploy Application
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  test:
+    name: Unit & E2E Test run on Chrome 88
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node14.17.0-chrome88-ff89
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and verify cypress
+        run: |
+          yarn --frozen-lock-files
+          $(npm bin)/cypress verify
+        continue-on-error: false
+
+      - name: Lint
+        run: |
+          yarn lint
+          yarn lint:style
+        continue-on-error: false
+
+      - name: Unit Test
+        run: yarn test
+        continue-on-error: false
+
+      - name: E2E Test
+        run: yarn cy:run
+        continue-on-error: false
+
+  build:
+    name: Build Application
+    needs: test
+    runs-on: ubuntu-latest
+    container: buildkite/puppeteer:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn --frozen-lock-files
+
+      - name: Build
+        run: |
+          yarn build:prod
+          yarn build:static
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: ./dist/apps/ui-core
+
+  deploy:
+    name: Deploy Application
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: app
+
+      - name: Deploy to Github Page
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          branch: gh-pages
