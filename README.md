@@ -65,7 +65,9 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 
 ## how to generate workspace
 npx create-nx-workspace name-of-workspace --preset=angular --style=scss
+
 npm run start
+
 npm install concurrently
   - insert in scripts pacakge.json "serve:all": "concurrently \" npm run serve:api \" \" npm run serve:web \"",
 
@@ -74,10 +76,12 @@ ng g app name-of-app --style=scss --routing=false
 
 ## how to add project Lib
 npx nx add name-of-plugin
+
 npx ng/ng g lib name-of-library --routing=true --style=scss
 
 ## how to add Services/Component
 npx ng/nx g s name-of-services-dir/name-of-service --project=name-of-library/name-of-app
+
 npx ng/nx g c name-of-component-dir/name-of-component --project=name-of-library/name-of-app --style=scss
 
 ## how to Run
