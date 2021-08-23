@@ -77,7 +77,7 @@ ng g app name-of-app --style=scss --routing=false
 ## how to add project Lib
 npx nx add name-of-plugin
 
-npx ng/ng g lib name-of-library --routing=true --style=scss
+npx nx/ng g lib name-of-library --routing=true --style=scss
 
 ## how to add Services/Component
 npx ng/nx g s name-of-services-dir/name-of-service --project=name-of-library/name-of-app
