@@ -68,7 +68,8 @@ npx create-nx-workspace name-of-workspace --preset=angular --style=scss
 
 npm run start
 
-npm install concurrently
+npm install concurrently or using run-many parallel projects
+  - nx run-many --parallel --target=serve --projects=web,api
   - insert in scripts pacakge.json "serve:all": "concurrently \" npm run serve:api \" \" npm run serve:web \"",
 
 ## how to add project App
